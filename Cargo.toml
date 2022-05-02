@@ -1,0 +1,9 @@
+[package]
+author = "Tony Ketcham <ketcham.dev@gmail.com>"
+edition = "2021"
+name = "plotty"
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[dependencies]
+svg = "0.10.0"
