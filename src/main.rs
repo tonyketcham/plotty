@@ -3,19 +3,20 @@ use svg::node::element::Circle;
 use svg::Document;
 
 fn main() {
-    let mut document = Document::new().set("viewBox", (0, 0, 300, 2120));
+    let mut document = Document::new().set("viewBox", (0, 0, 200, 900));
 
     let perlin = Perlin::new();
 
-    let circles = (0..300)
+    let circles = (0..400)
         .map(|i| {
             let f = i as f64;
-            let x = f * perlin.get([f * 0.001, 1., 0.05 * f]) * 7.;
-            let y = f * 7.;
+            let x = perlin.get([f * 0.02, f * 0.05, 0.]) * 700. + 5.;
+
+            let y = 4000. / x;
             Circle::new()
                 .set("cx", x)
-                .set("cy", y + 10.)
-                .set("r", 5. + perlin.get([x, y, 0.0]) * 10.)
+                .set("cy", 750. % y + 50.)
+                .set("r", 15. * perlin.get([x, y, 0.0]) + 5.)
                 .set("fill", "none")
                 .set("stroke", "black")
                 .set("stroke-width", 2)
