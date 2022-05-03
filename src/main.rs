@@ -28,16 +28,3 @@ fn main() {
 
     svg::save("image.svg", &document).unwrap();
 }
-
-// #[derive(Clone)]
-// struct Sketch {
-//     data: Data,
-//     path: Path,
-//     document: SVG,
-// }
-
-// impl Sketch {
-//     fn line_loop(&self) {
-//         self.data.line_by((0, 5));
-//     }
-// }
