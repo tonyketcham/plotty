@@ -1,24 +1,43 @@
+use noise::{NoiseFn, Perlin};
+use svg::node::element::Circle;
+use svg::Document;
+
 fn main() {
-    use svg::node::element::path::Data;
-    use svg::node::element::Path;
-    use svg::Document;
+    let mut document = Document::new().set("viewBox", (0, 0, 300, 2120));
 
-    let data = Data::new()
-        .move_to((10, 10))
-        .line_by((0, 50))
-        .line_by((50, 0))
-        .line_by((0, -50))
-        .close();
+    let perlin = Perlin::new();
 
-    let path = Path::new()
-        .set("fill", "none")
-        .set("stroke", "orange")
-        .set("stroke-width", 1)
-        .set("stroke-linecap", "round")
-        .set("stroke-linejoin", "round")
-        .set("d", data);
+    let circles = (0..300)
+        .map(|i| {
+            let f = i as f64;
+            let x = f * perlin.get([f * 0.001, 1., 0.05 * f]) * 7.;
+            let y = f * 7.;
+            Circle::new()
+                .set("cx", x)
+                .set("cy", y + 10.)
+                .set("r", 5. + perlin.get([x, y, 0.0]) * 10.)
+                .set("fill", "none")
+                .set("stroke", "black")
+                .set("stroke-width", 2)
+        })
+        .collect::<Vec<_>>();
 
-    let document = Document::new().set("viewBox", (0, 0, 70, 70)).add(path);
+    for circle in circles {
+        document = document.add(circle);
+    }
 
     svg::save("image.svg", &document).unwrap();
 }
+
+// #[derive(Clone)]
+// struct Sketch {
+//     data: Data,
+//     path: Path,
+//     document: SVG,
+// }
+
+// impl Sketch {
+//     fn line_loop(&self) {
+//         self.data.line_by((0, 5));
+//     }
+// }
